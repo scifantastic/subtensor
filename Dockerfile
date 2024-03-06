@@ -53,11 +53,13 @@ RUN /subtensor/scripts/init.sh
 
 # Cargo build
 WORKDIR /subtensor
-RUN cargo build --release --features runtime-benchmarks --locked
+RUN cargo build --release --features pow-faucet
 EXPOSE 30333 9933 9944
 
-
 FROM $BASE_IMAGE AS subtensor
+
+COPY scripts/start_staging.sh ./
+RUN chmod +x ./start_staging.sh
 
 COPY --from=builder /subtensor/snapshot.json /
 COPY --from=builder /subtensor/raw_spec.json /

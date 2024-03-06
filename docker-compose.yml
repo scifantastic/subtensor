@@ -3,6 +3,7 @@ version: '3.8'
 volumes:
   mainnet-lite-volume:
   mainnet-archive-volume:
+  staging-volume:
   testnet-lite-volume:
   testnet-archive-volume:
 
@@ -44,6 +45,15 @@ services:
           --ws-max-connections 10000 --in-peers 500 --out-peers 500 \
           --bootnodes /dns/bootnode.finney.opentensor.ai/tcp/30333/ws/p2p/12D3KooWRwbMb85RWnT8DSXSYMWQtuDwh4LJzndoRrTDotTR5gDC \
           --sync warp
+
+  staging:
+    <<: *common
+    image: subtensor:staging
+    container_name: subtensor-staging
+    volumes:
+      - staging-volume:/tmp/blockchain
+    command: ./start_staging.sh
+
 
   mainnet-archive:
     <<: *common
